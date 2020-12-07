@@ -2,7 +2,7 @@
 	'use strict';
 	//加载地图函数库
 	window.BMap_loadScriptTime = (new Date).getTime();
-	document.write('<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=077E114C2eb9cf894df88566ea8cfce7&services=&t=20160310104956"></script>');   
+	document.write('<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=密钥&services=&t=20160310104956"></script>');   
 })(window)
 function MapInit(map,json){
 		//=====初始化init
