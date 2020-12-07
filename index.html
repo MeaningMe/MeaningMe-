@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>demo</title>
+		<script src="./js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/map.js"></script>
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+
+			#allmap {
+				height: 100%;
+				width: 100%;
+			}
+
+			#r-result {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<section id="allmap"></section>
+	</body>
+</html>
+<script>
+	var $imgDir = 'img/';
+	var $meaningme = "117.22072,39.084436"; //中心点坐标
+	var $copyright = "MeaningMe 1.0Demo"; //copyright for me
+	var $infoWindowOpenMethod = 'mouseover';
+
+	// /===============初始化init=============/
+	var map = new BMap.Map("allmap");
+	MapInit(map, {
+		"isNumc": 1,
+		"city": "天津",
+		"point": $meaningme,
+		"zoom": "15",
+		"copyright": $copyright
+	});
+
+	function loadPointData(dataJson, paramJson) {
+
+		map.clearOverlays();
+		for (var i = 0; i < dataJson.data.length; i++) {
+			var $json = dataJson.data[i];
+			var title = $json.title, //文本
+				description = $json.detail; //描述
+			zuobiao = $json.meaningme.split(','),
+				l_point = zuobiao[0], //经度
+				r_point = zuobiao[1]; //纬度
+
+			var img = '',
+				style = '';
+			if ($json.color == '1') {
+				img = 'icon_locate_red.png';
+				style = "red";
+			}
+			if ($json.color == '2') {
+				img = 'icon_locate_blue.png';
+				style = "blue";
+			}
+			if ($json.color == '3') {
+				img = 'icon_locate_green.png';
+				style = "green";
+			}
+
+			if (img != '') img = $imgDir + img;
+
+			//创建标注点
+			var $pointJson = {
+				"l_point": l_point,
+				"r_point": r_point,
+				"title": title,
+				"description": description,
+				"style": style,
+				"icon": img
+			}
+			createMapPoint($pointJson, paramJson);
+
+		}
+
+	}
+	// ==========事件================
+	$(function() {
+		var $coordinateJson = {
+			data: [{
+					meaningme: '117.22072,39.085536',
+					title: '',
+					detail: '嘟嘟嘟嘟天津',
+					color: ''
+				},
+				{
+					meaningme: '117.315313,39.075868',
+					title: '',
+					detail: '嘟嘟嘟嘟天津1',
+					color: '1'
+				},
+				{
+					meaningme: '117.09512,39.129177',
+					title: '',
+					detail: '嘟嘟嘟嘟天津2',
+					color: '2'
+				},
+				{
+					meaningme: '117.315313,39.075868',
+					title: '',
+					detail: '嘟嘟嘟嘟天津3',
+					color: '3'
+				},
+			]
+		}
+		loadPointData($coordinateJson, {
+			"showDetails": false
+		});
+	});
+</script>
